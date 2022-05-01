@@ -43,7 +43,7 @@ class ProyectoController extends Controller
             
             return $proyecto->content;
         }
-        return "Codigo no registrado";
+        return "Codigo no regiscoditrado";
     }
     public function index()
     {
