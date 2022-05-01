@@ -54,8 +54,8 @@ return [
     |
     */
 
-    'asset_url' => null,
-
+    /* 'asset_url' => null, */
+    'asset_url' =>"https://supportficct.ga/modelo-c4/public",
     /*
     |--------------------------------------------------------------------------
     | Livewire App URL
