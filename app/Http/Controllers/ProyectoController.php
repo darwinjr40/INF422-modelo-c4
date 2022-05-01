@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Proyecto;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProyectoController extends Controller
@@ -12,6 +13,17 @@ class ProyectoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function user(Request $request){
+      
+        $user=User::Where("token",$request->token)
+        ->select("name","email","token")
+        ->get()->first();
+        if ($user){
+            return $user;
+        }
+        return "Token no valido";
+    }
+
     public function guardar(Request $request){
       
         $proyecto=Proyecto::Where('codigo',$request->codigo)->get()->first();

@@ -60,7 +60,7 @@
                             <div align="center" class="mt-4">
                                 <a wire:click="compartirProyecto('{{$proyecto->codigo}}')" class="myButtonShare">Compartir</a>
 
-                                <a href="http://localhost:8080/model-c4?room={{$proyecto->codigo}}&username={{auth()->user()->name}}" class="myButton">Ingresar</a>
+                                <a href="http://localhost:8080/model-c4?room={{$proyecto->codigo}}&username={{auth()->user()->token}}" class="myButton">Ingresar</a>
                             </div>
                         </div>
                       </div>
