@@ -41,7 +41,7 @@ class ProyectoController extends Controller
         $proyecto=Proyecto::Where('codigo',$request->codigo)->get()->first();
         if ($proyecto){
             
-            return $proyecto->content;
+            return $proyecto;
         }
         return "Codigo no regiscoditrado";
     }
