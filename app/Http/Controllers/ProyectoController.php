@@ -13,9 +13,9 @@ class ProyectoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function user(Request $request){
+    public function user($token){
       
-        $user=User::Where("token",$request->token)
+        $user=User::Where("token",$token)
         ->select("name","email","token")
         ->get()->first();
         if ($user){
@@ -24,9 +24,9 @@ class ProyectoController extends Controller
         return "Token no valido";
     }
 
-    public function guardar(Request $request){
+    public function guardar(Request $request, $codigo){
       
-        $proyecto=Proyecto::Where('codigo',$request->codigo)->get()->first();
+        $proyecto=Proyecto::Where('codigo',$codigo)->get()->first();
         if ($proyecto){
             $proyecto->update([
                 'content' => $request->content,
@@ -36,9 +36,9 @@ class ProyectoController extends Controller
         return "hubo un error";
     }
 
-    public function cargarDiagrama(Request $request){
+    public function cargarDiagrama($codigo){
       
-        $proyecto=Proyecto::Where('codigo',$request->codigo)->get()->first();
+        $proyecto=Proyecto::Where('codigo',$codigo)->get()->first();
         if ($proyecto){
             
             return $proyecto;

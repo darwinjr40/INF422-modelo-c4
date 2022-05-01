@@ -19,6 +19,6 @@ use App\Http\Controllers\ProyectoController;
     return $request->user();
 }); */
 
-Route::get('user',[ProyectoController::class, 'user'])->name('proyecto.user');
-Route::put('guardar-diagrama',[ProyectoController::class, 'guardar'])->name('proyecto.guardar');
-Route::get('cargar-diagrama',[ProyectoController::class, 'cargarDiagrama'])->name('proyecto.cargar');
+Route::get('user/{token}',[ProyectoController::class, 'user'])->name('proyecto.user');
+Route::put('guardar-diagrama/{codigo}',[ProyectoController::class, 'guardar'])->name('proyecto.guardar');
+Route::get('cargar-diagrama/{codigo}',[ProyectoController::class, 'cargarDiagrama'])->name('proyecto.cargar');
