@@ -1,77 +1,81 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
+    <link rel="stylesheet" href="{{asset('css/styles-login.css')}}">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
 
-                        <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
+    <title>BigPack-Login</title>
+</head>
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+<div class="login">
+    <div class="login__content">
+        <div class="login__img">
+            <img src="{{asset('img/logo.png')}}" alt="">
+        </div>
 
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+        <div class="login__forms">
+            <form method="POST" action="{{ route('register') }}" class="login__create" id="login-up">
+                @csrf
+                <h1 class="login__title">Crear cuenta</h1>
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                <div class="login__box">
+                    <i class='bx bx-user login__icon'></i>
+                    <input id="name" type="text" placeholder="Nombre de Usuario" class="login__input @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
                 </div>
-            </div>
+
+                @error('name')
+                        <span id="error" class="login__forgot">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                @enderror
+
+                <div class="login__box">
+                    <i class='bx bx-at login__icon'></i>
+                    <input id="email" type="email" placeholder="Correo" class="login__input @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                </div>
+
+                @error('email')
+                        <span id="error" class="login__forgot">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                @enderror
+
+                <div class="login__box">
+                    <i class='bx bx-lock-alt login__icon'></i>
+                    <input id="password" type="password" placeholder="Contraseña" class="login__input @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                </div>
+
+                @error('password')
+                    <span  id="error" class="login__forgot"><strong>{{ $message }}</strong></span>
+                @enderror
+                
+
+                <div class="login__box">
+                    <i class='bx bx-lock-alt login__icon'></i>
+                    <input id="password-confirm" type="password" placeholder="Confirmar Contraseña" class="login__input" name="password_confirmation" required autocomplete="new-password">
+                </div>
+                <div align="center">
+                    <button type="submit" class="login__button" id="sign" align="center">
+                        {{ __('Regístrate') }}
+                    </button>
+                </div>
+                
+
+                <div>
+                    <span class="login__account">Ya tienes una cuenta?</span>
+                    <span class="login__signup" id="sign-in">
+                        <a href="{{url('login')}}">Iniciar sesión</a>
+                    </span>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+ <script src="{{asset('js/login.js')}}"></script>
 @endsection
+
