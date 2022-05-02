@@ -5,12 +5,14 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\User;
 use App\Models\Proyecto;
+use App\Models\ProyectoUser;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class Home extends Component
 {
     public $nombre,$descripcion,$proyecto_id,$codigo;
-    
+    public $users;
 
     public $modalCrear=false;
     public $modalEdit=false;
@@ -18,6 +20,8 @@ class Home extends Component
     public $modalDestroy=false;
     public $modalUnirse=false;
     public $modalCompartir=false;
+    public $modalUsers=false;
+    public $registrado=false;
     public $opcion=true;
 
 
@@ -30,6 +34,17 @@ class Home extends Component
             $proyectos=$user->proyectos;
         }
         return view('livewire.home',compact('proyectos'));
+    }
+    public function verProyecto($proyecto_id){
+        $this->proyecto_id=$proyecto_id;
+        $this->users = DB::table('users')
+        ->join('proyecto_user', 'proyecto_user.user_id', '=','users.id')
+        ->where('proyecto_user.proyecto_id',$proyecto_id)
+        ->select('users.id','users.name','users.email','proyecto_user.proyecto_id')
+        ->get();
+        
+        
+        $this->modalUsers=true;
     }
     public function compartirProyecto($codigo){
         $this->modalCompartir=true;
@@ -62,10 +77,17 @@ class Home extends Component
             $this->errormodal=true;
         }else{
             $proyecto=Proyecto::where("codigo",$this->codigo)->get()->first();
-            if ($proyecto){
+            $proyectouser=ProyectoUser::where("user_id",auth()->user()->id)
+            ->where("proyecto_id",$proyecto->id)
+            ->get()->first();
+            if ($proyecto && $proyectouser==null){
                 $proyecto->users()->attach(auth()->user()->id);
+                $this->registrado=false;
+                $this->limpiar();
+            }else{
+                $this->errormodal=true;
+                $this->registrado=true;
             }
-            $this->limpiar();
         }
     }
     public function updateProyecto(){
@@ -96,6 +118,11 @@ class Home extends Component
         $this->modalCrear=false;
         $this->modalDestroy=false;
         $this->modalUnirse=false;
+        $this->codigo=null;
+        $this->modalCompartir=false;
+        $this->errormodal=false;
+        $this->modalUsers=false;
+        
     }
     public function cancelar(){
         $this->limpiar();
@@ -112,5 +139,13 @@ class Home extends Component
         $tipocuenta->delete();
         $this->modalDestroy=false;
         $this->limpiar();
+    }
+    public function destroyProyectouser($user,$proyecto)
+    {
+        $proyectouser=ProyectoUser::where("user_id",$user)
+        ->where("proyecto_id",$proyecto)
+        ->get()->first();
+        $proyectouser->delete();
+        
     }
 }

@@ -34,6 +34,14 @@
       text-overflow: ellipsis;
       letter-spacing: 1px;
   }
-
+  body{
+    margin: 0;
+    padding: 0;
+    background-image: url(../img/fondo.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    height:120%;
+    background-size: cover;
+  }
 
   
