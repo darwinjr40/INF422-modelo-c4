@@ -1,262 +1,312 @@
 <div>
-  <head>
-    <link rel="stylesheet" href="{{asset('css/modal.css')}}">
-    <link rel="stylesheet" href="{{asset('css/home.css')}}">
-    <script src="{{ asset('js/home.js') }}"></script>
-  </head>
+
+    <head>
+        <link rel="stylesheet" href="{{ asset('css/modal.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+        <script src="{{ asset('js/home.js') }}"></script>
+    </head>
     <div class="container">
-      <div align="center" class="m-5 titulo-proyecto">
-          <h1><b>Mis Proyectos</b></h1>
-      </div>  
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <ul class="nav nav-tabs card-header-tabs mx-2 my-0">
-            <li class="nav-item">
-              <a wire:click="$set('opcion', true)" class="nav-link @if($opcion) active @endif">Tus proyectos</a>
-            </li>
-            <li class="nav-item">
-              <a wire:click="$set('opcion', false)" class="nav-link @if(!$opcion) active @endif">Invitado</a>
-            </li>
-          </ul>
-          <div class="card">
-            <div class="card-body">
-          
-            <div align="right" class="my-2">
-              @if ($opcion)
-                <button class="boton-crear" wire:click="$set('modalCrear', true)">Crear proyecto</button>
-              @else
-                <button class="boton-crear" wire:click="$set('modalUnirse', true)">Unirse a un proyecto</button>
-              @endif
-            </div>
-          <div class="row justify-content-center">
-            <div class="col-md-8">
-              
-                @if ($proyectos)
-                  @foreach ($proyectos as $proyecto)
-                      <div class="card my-5">
-                        <div class="card-header">
-                          <section class="layout">
-                            <div><b>{{$proyecto->nombre}}</b>
-                              @if (!$opcion)
-                                  - creado por: {{$proyecto->user->name}}
-                              @endif
+        <div align="center" class="m-5 titulo-proyecto">
+            <h1><b>Mis Proyectos</b></h1>
+        </div>
+        <ul class="nav nav-tabs card-header-tabs mx-2 my-4">
+          <li class="nav-item">
+              <a wire:click="$set('opcion', true)"
+                  class="nav-link @if ($opcion) active @endif">Tus proyectos</a>
+          </li>
+          <li class="nav-item">
+              <a wire:click="$set('opcion', false)"
+                  class="nav-link @if (!$opcion) active @endif">Invitado</a>
+          </li>
+      </ul>
+        <div align="right">
+            @if ($opcion)
+                <button class="boton-crear" wire:click="$set('modalCrear', true)">Crear
+                    proyecto</button>
+            @else
+                <button class="boton-crear" wire:click="$set('modalUnirse', true)">Unirse a un
+                    proyecto</button>
+            @endif
+        </div>
+
+      <div class="my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="row justify-content-center mb-5">
+                            <div class="col-12">
+                                @forelse ($arrays as $array)
+                                    <div class="carousel-item @if ($loop->index == $contador) active @endif">
+                                        <div class="row justify-content-center">
+                                            @foreach ($array as $proyecto)
+                                                <div class="col-12 col-md-4 align-self-center">
+                                                    <div class="card my-2 mx-4">
+                                                        <div class="card-header">
+                                                            <section class="layout">
+                                                                <div><b>{{ $proyecto->nombre }}</b>
+                                                                    @if (!$opcion)
+                                                                        - creado por: {{ $proyecto->user->name }}
+                                                                    @endif
+                                                                </div>
+                                                                @if ($opcion)
+                                                                    <div class="marginLeft">
+                                                                        <button
+                                                                            wire:click="verProyecto('{{ $proyecto->id }}')"
+                                                                            class="boton">
+                                                                            <img class="img"
+                                                                                src="{{ asset('img/grupo.png') }}">
+                                                                        </button>
+                                                                    </div>
+                                                                    <div>
+                                                                        <button
+                                                                            wire:click="modalEdit('{{ $proyecto->id }}')"
+                                                                            class="boton">
+                                                                            <img class="img"
+                                                                                src="{{ asset('img/lapiz.png') }}">
+                                                                        </button>
+                                                                    </div>
+                                                                    <div>
+                                                                        <button
+                                                                            wire:click="modalDestroy('{{ $proyecto->id }}')"
+                                                                            class="boton">
+                                                                            <img class="img"
+                                                                                src="{{ asset('img/eliminar.png') }}">
+                                                                        </button>
+                                                                    </div>
+                                                                @endif
+                                                            </section>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="input-group">
+                                                                <label>Descripcion:
+                                                                    <b>{{ $proyecto->descripcion }}</b></label>
+                                                            </div>
+                                                            <div align="center" class="mt-4">
+                                                                @if ($opcion)
+                                                                    <a wire:click="compartirProyecto('{{ $proyecto->codigo }}')"
+                                                                        class="myButtonShare">Compartir</a>
+                                                                @endif
+                                                                <a href="http://localhost:8080/model-c4?room={{ $proyecto->codigo }}&username={{ auth()->user()->token }}"
+                                                                    class="myButton">Ingresar</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+
+                                @empty
+                                @endforelse
                             </div>
-                            @if ($opcion)
-                            <div class="marginLeft">
-                              <button wire:click="verProyecto('{{$proyecto->id}}')" class="boton">
-                                  <img class="img" src="{{asset('img/grupo.png')}}">
-                              </button>
-                            </div>
-                            <div>
-                              <button wire:click="modalEdit('{{$proyecto->id}}')" class="boton">
-                                  <img class="img" src="{{asset('img/lapiz.png')}}">
-                              </button>
-                            </div>
-                            <div>
-                                <button wire:click="modalDestroy('{{$proyecto->id}}')" class="boton">
-                                    <img class="img" src="{{asset('img/eliminar.png')}}">
-                                </button> 
-                            </div>
-                            @endif
-                          </section>
+                            
                         </div>
-                        <div class="card-body">
-                          <div class="input-group">
-                            <label>Descripcion: <b>{{$proyecto->descripcion}}</b></label> 
+                        <div class="row justify-content-center">
+                          <div align="center" class="col">
+                              <button class="btn btn-outline-dark" wire:click="restar()"> Atras </button>
                           </div>
-                          <div align="center" class="mt-4">
-                              @if ($opcion)
-                              <a wire:click="compartirProyecto('{{$proyecto->codigo}}')" class="myButtonShare">Compartir</a>
-                              @endif
-                              <a href="http://localhost:8080/model-c4?room={{$proyecto->codigo}}&username={{auth()->user()->token}}" class="myButton">Ingresar</a>
+
+                          <div align="center" class="col">
+                            <button class="btn btn-outline-dark" wire:click="contar()">Siguiente</button>
                           </div>
                         </div>
-                      </div>
-                  @endforeach
-                @else
-                <div class="card">
-                  <div class="card-body">
-                      {{ __('No tienes proyectos') }}
-                  </div>
+                    </div>
                 </div>
-                @endif 
+                
+                {{--  <a wire:click="restar()" class="carousel-control-prev carrusel" href="#carouselExampleControls" role="button"
+                    data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a wire:click="contar()" class="carousel-control-next carrusel" href="#carouselExampleControls" role="button"
+                    data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>  --}}
             </div>
-          </div>
+            
         </div>
       </div>
     </div>
-  </div>
-    </div>
-    {{--  crear proyecto   --}}
-    @if ($modalCrear)
+{{-- crear proyecto --}}
+@if ($modalCrear)
     <div class="modald">
-      <div class="modald-contenido">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Crear proyecto</h5>
-          </div>
-          <div class="modal-body">
-            <h4>Nombre:</h4>
-            <input type="text" wire:model="nombre" class="form-control">
-            @if($errormodal)
-                    <small class="text-danger">Campo Requerido</small>
-            @endif
-            <h4>Descripcion:</h4>
-            <input type="text" wire:model="descripcion" class="form-control">
-            @if($errormodal)
-                    <small class="text-danger">Campo Requerido</small>
-            @endif
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" wire:click="cancelar()">Cancelar</button>
-            <button type="button" class="btn btn-primary" wire:click="storeProyecto()">Guardar</button>
-          </div>
-        </div>
-      </div>
-    </div> 
-    </div>  
-    @endif
-    
-    {{--  editar proyecto  --}}
-    @if ($modalEdit)
-    <div class="modald">
-      <div class="modald-contenido">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Editar proyecto</h5>
-          </div>
-          <div class="modal-body">
-            <h4>Nombre:</h4>
-            <input type="text" wire:model="nombre" class="form-control">
-            @if($errormodal)
-                    <small class="text-danger">Campo Requerido</small>
-            @endif
-            <h4>Descripcion:</h4>
-            <input type="text" wire:model="descripcion" class="form-control">
-            @if($errormodal)
-                    <small class="text-danger">Campo Requerido</small>
-            @endif
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" wire:click="cancelar()">Cancelar</button>
-            <button type="button" class="btn btn-primary" wire:click="updateProyecto()">Actualizar</button>
-          </div>
-        </div>
-      </div>
-    </div> 
-    </div>  
-    @endif
-    {{--  eliminar proyecto  --}}
-    @if ($modalDestroy)
-    <div class="modald">
-      <div class="modald-contenido">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-
-          <div class="card-header">
-              <div class="d-flex align-items-center text-center justify-content-center">
-                <h5>¿Estás seguro?</h5>
-              </div>
-          </div>
-
-          <div class="modal-body">
-              <div align="center">
-                  <button type="button" class="btn btn-secondary btn-sm my-2 mx-2" wire:click="cancelar()">Cancelar</button>
-                  <button wire:click="destroyProyecto()" class="btn btn-danger btn-sm my-2 mx-2">Eliminar</button>
-              </div>
-          </div>
-          
-        </div>
-      </div>
-      </div>  
-    </div>
-    @endif
-    {{--  UNIRSE A UN PROYECTO  --}}
-    @if ($modalUnirse)
-    <div class="modald">
-      <div class="modald-contenido">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Unirse a un proyecto</h5>
-          </div>
-          <div class="modal-body">
-            <h4>Clave del proyecto:</h4>
-            <input type="text" wire:model="codigo" placeholder="Ingrese la clave" class="form-control">
-            @if($errormodal)
-                    <small class="text-danger">
-                      @if ($registrado)
-                          Ya formas parte de este proyecto.
-                        @else
-                          Campo Requerido.
-                      @endif
-                    </small>
-            @endif
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" wire:click="cancelar()">Cancelar</button>
-            <button type="button" class="btn btn-primary" wire:click="unirseProyecto()">Guardar</button>
-          </div>
-        </div>
-      </div>
-    </div> 
-    </div>  
-    @endif
-
-    @if ($modalCompartir)
-    <div class="modald">
-      <div class="modald-contenido">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Clave del proyecto:</h5>
-            <button wire:click="cancelar()" class="close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="m-0 row justify-content-center">
-              <div class="col-8 text-center">
-                <input id="codigo" readonly='TRUE' type="text" wire:model="codigo" class="form-control">
-              </div>
-              <div class="col-auto text-center">
-                <button onclick="ejecutar('codigo')" type="button" class="btn btn-primary">Copiar</button>
-              </div>
+        <div class="modald-contenido">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Crear proyecto</h5>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Nombre:</h4>
+                        <input type="text" wire:model="nombre" class="form-control">
+                        @if ($errormodal)
+                            <small class="text-danger">Campo Requerido</small>
+                        @endif
+                        <h4>Descripcion:</h4>
+                        <input type="text" wire:model="descripcion" class="form-control">
+                        @if ($errormodal)
+                            <small class="text-danger">Campo Requerido</small>
+                        @endif
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" wire:click="cancelar()">Cancelar</button>
+                        <button type="button" class="btn btn-primary" wire:click="storeProyecto()">Guardar</button>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div> 
-    </div>  
-    @endif
+    </div>
+@endif
 
-    {{--  ver usuarios   --}}
-    @if ($modalUsers)
+{{-- editar proyecto --}}
+@if ($modalEdit)
     <div class="modald">
-      <div class="modald-contenido">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Usuarios agregados</h5>
-          </div>
-          <div class="modal-body">
-            @foreach ($users as $user)
-            <div class="row">
-              <div class="col"><h4>- {{$user->name}}</h4>  </div>
-              <div class="col">
-                <button class="close" wire:click="destroyProyectouser('{{$user->id}}','{{$user->proyecto_id}}')"><span aria-hidden="true">&times;</span></button>
-              </div>
+        <div class="modald-contenido">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Editar proyecto</h5>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Nombre:</h4>
+                        <input type="text" wire:model="nombre" class="form-control">
+                        @if ($errormodal)
+                            <small class="text-danger">Campo Requerido</small>
+                        @endif
+                        <h4>Descripcion:</h4>
+                        <input type="text" wire:model="descripcion" class="form-control">
+                        @if ($errormodal)
+                            <small class="text-danger">Campo Requerido</small>
+                        @endif
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" wire:click="cancelar()">Cancelar</button>
+                        <button type="button" class="btn btn-primary" wire:click="updateProyecto()">Actualizar</button>
+                    </div>
+                </div>
             </div>
-            @endforeach
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" wire:click="cancelar()">salir</button>
-          </div>
         </div>
-      </div>
-    </div> 
-    </div>  
-    @endif
+    </div>
+@endif
+{{-- eliminar proyecto --}}
+@if ($modalDestroy)
+    <div class="modald">
+        <div class="modald-contenido">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <div class="card-header">
+                        <div class="d-flex align-items-center text-center justify-content-center">
+                            <h5>¿Estás seguro?</h5>
+                        </div>
+                    </div>
+
+                    <div class="modal-body">
+                        <div align="center">
+                            <button type="button" class="btn btn-secondary btn-sm my-2 mx-2"
+                                wire:click="cancelar()">Cancelar</button>
+                            <button wire:click="destroyProyecto()"
+                                class="btn btn-danger btn-sm my-2 mx-2">Eliminar</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+{{-- UNIRSE A UN PROYECTO --}}
+@if ($modalUnirse)
+    <div class="modald">
+        <div class="modald-contenido">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Unirse a un proyecto</h5>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Clave del proyecto:</h4>
+                        <input type="text" wire:model="codigo" placeholder="Ingrese la clave" class="form-control">
+                        @if ($errormodal)
+                            <small class="text-danger">
+                                @if ($registrado)
+                                    Ya formas parte de este proyecto.
+                                @else
+                                    Campo Requerido.
+                                @endif
+                            </small>
+                        @endif
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" wire:click="cancelar()">Cancelar</button>
+                        <button type="button" class="btn btn-primary" wire:click="unirseProyecto()">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
+@if ($modalCompartir)
+    <div class="modald">
+        <div class="modald-contenido">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Clave del proyecto:</h5>
+                        <button wire:click="cancelar()" class="boton">
+                            <img class="img" src="{{ asset('img/salir.png') }}">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="m-0 row justify-content-center">
+                            <div class="col-8 text-center">
+                                <p id="joinLink" style="width: 100%" wire:model="codigo" class="form-control">
+                                    {{ $codigo }}</p>
+                            </div>
+                            <div class="col-auto text-center">
+                                <input type="button" class="btn btn-primary" onclick="copyLink()" data-toggle="tooltip"
+                                    title="Copy to Clipboard" value="Copy Link" readonly />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
+{{-- ver usuarios --}}
+@if ($modalUsers)
+    <div class="modald">
+        <div class="modald-contenido">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel"><b>Usuarios agregados</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        @foreach ($users as $user)
+                            <div class="row my-2">
+                                <div class="col-8">
+                                    <h5>- {{ $user->name }}</h5>
+                                </div>
+                                <div align="right"class="col-4">
+                                  <button wire:click="destroyProyectouser('{{ $user->id }}','{{$user->proyecto_id}}')" class="boton">
+                                    <img class="img" src="{{ asset('img/salir.png') }}">
+                                </button>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" wire:click="cancelar()">salir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
 </div>

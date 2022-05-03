@@ -110,6 +110,18 @@
     background: #0199d9;
   }
 
+  .padre {
+    height: 150px;
+    /*IMPORTANTE*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .hijo {
+    width: 120px;
+  }
+
   /* .contenedor{
     height: 500px;
     width: 100%;

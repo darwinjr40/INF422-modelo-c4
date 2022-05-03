@@ -1,10 +1,18 @@
-function ejecutar(idelemento){
-    var aux = document.createElement("div");
-    aux.setAttribute("contentEditable", true);
-    aux.innerHTML = document.getElementById(idelemento).innerHTML;
-    aux.setAttribute("onfocus", "document.execCommand('selectAll',false,null)"); 
-    document.body.appendChild(aux);
-    aux.focus();
-    document.execCommand("copy");
-    document.body.removeChild(aux);
-  }
+
+  
+function copyLink() {
+  
+    let copyText1 = document.getElementById("joinLink")
+    console.log(copyText1);
+    var selection = window.getSelection();
+
+    var range = document.createRange();
+
+    range.selectNodeContents(copyText1);
+
+    selection.removeAllRanges();
+
+    selection.addRange(range);
+
+    document.execCommand('copy');
+}

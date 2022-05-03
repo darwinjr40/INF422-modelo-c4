@@ -23,17 +23,49 @@ class Home extends Component
     public $modalUsers=false;
     public $registrado=false;
     public $opcion=true;
+    public $contador=0;
+    public $longitud=0;
 
+    public function contar(){
+        if ($this->contador < $this->longitud-1){
+            $this->contador=$this->contador+1;
+        }
+    }
+    public function restar(){
+        if ($this->contador>0){
+            $this->contador=$this->contador-1;
+        }
+    }
 
     public function render()
     {
         $user=User::find(Auth()->user()->id);
         if ($this->opcion){
             $proyectos=$user->proyecto;
+            
         }else{
             $proyectos=$user->proyectos;
         }
-        return view('livewire.home',compact('proyectos'));
+        $c=1;
+            unset($arrays);
+            unset($array);
+            $array=array();
+            $arrays=array();
+            foreach($proyectos as $proyecto){
+                if ($c<=3){
+                    array_push($array,$proyecto);
+                    $c=$c+1;
+                }else{
+                    array_push($arrays,$array);
+                    $array=array();
+                    array_push($array,$proyecto);
+                    $c=1;
+                }
+                
+            }
+            array_push($arrays,$array);
+        $this->longitud=count($arrays);
+        return view('livewire.home',compact('arrays'));
     }
     public function verProyecto($proyecto_id){
         $this->proyecto_id=$proyecto_id;
@@ -42,10 +74,16 @@ class Home extends Component
         ->where('proyecto_user.proyecto_id',$proyecto_id)
         ->select('users.id','users.name','users.email','proyecto_user.proyecto_id')
         ->get();
-        
-        
         $this->modalUsers=true;
     }
+    public function actualizarVerUsers($proyecto_id){
+        $this->users = DB::table('users')
+        ->join('proyecto_user', 'proyecto_user.user_id', '=','users.id')
+        ->where('proyecto_user.proyecto_id',$proyecto_id)
+        ->select('users.id','users.name','users.email','proyecto_user.proyecto_id')
+        ->get();
+    }
+
     public function compartirProyecto($codigo){
         $this->modalCompartir=true;
         $this->codigo=$codigo;
@@ -145,7 +183,8 @@ class Home extends Component
         $proyectouser=ProyectoUser::where("user_id",$user)
         ->where("proyecto_id",$proyecto)
         ->get()->first();
-        $proyectouser->delete();
-        
+        $proyectouser->delete();  
+        $this->actualizarverusers($proyecto);
     }
+    
 }
