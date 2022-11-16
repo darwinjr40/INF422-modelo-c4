@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Livewire\Home;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -18,6 +20,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/home2', [App\Http\Controllers\HomeController::class, 'index2'])->name('home2');
+//componente de livewire directamente
+// Route::get('/home', Home::class)->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home2', [HomeController::class, 'index2'])->name('home2');
