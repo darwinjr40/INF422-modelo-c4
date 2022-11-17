@@ -8,33 +8,35 @@
     <div class="container">
 
         <div align="center" class="m-5 titulo-proyecto">
-            <h1><b>Mis Proyectos</b></h1>
+            <h1 class="text-bg"><b>Mis Proyectos</b></h1>
         </div>
 
-        <ul class="nav nav-tabs card-header-tabs mx-2 my-4">
-            <li class="nav-item">
-                <a wire:click="$set('opcion', true)" class="nav-link @if ($opcion) active @endif">
+        <div >
+          @if ($opcion)
+              <button class="btn-primary boton-crear " wire:click="$set('modalCrear', true)">
+                  Crear proyecto
+              </button>
+          @else
+              <button class="btn-primary boton-crear" wire:click="$set('modalUnirse', true)">
+                  Unirse a un proyecto
+              </button>
+          @endif
+      </div>
+
+        <ul class="nav nav-tabs card-header-tabs mx-2 my-4 ">
+            <li class="nav-item ">
+                <a wire:click="$set('opcion', true)" class="nav-link  @if ($opcion) active text-white bg-dark @endif">
                     Tus proyectos
                 </a>
             </li>
             <li class="nav-item">
-                <a wire:click="$set('opcion', false)" class="nav-link @if (!$opcion) active @endif">
+                <a wire:click="$set('opcion', false)" class="nav-link @if (!$opcion) active  text-white bg-dark @endif">
                     Invitado
                 </a>
             </li>
         </ul>
 
-        <div align="right">
-            @if ($opcion)
-                <button class="boton-crear" wire:click="$set('modalCrear', true)">
-                    Crear proyecto
-                </button>
-            @else
-                <button class="boton-crear" wire:click="$set('modalUnirse', true)">
-                    Unirse a un proyecto
-                </button>
-            @endif
-        </div>
+        
 
         <div class="my-5">
             <div class="row justify-content-center">
@@ -92,11 +94,11 @@
                                                                 <div align="center" class="mt-2">
                                                                     @if ($opcion)
                                                                         <a wire:click="compartirProyecto('{{ $proyecto->codigo }}')"
-                                                                            class="myButtonShare">Compartir</a>
+                                                                            class="btn btn-primary">Compartir</a>
                                                                     @endif
                                                                     {{-- <a href="http://144.22.174.111:8080/model-c4?room={{ $proyecto->codigo }}&username={{ auth()->user()->token }}" --}}
                                                                     <a href="http://localhost:8080/model-c4?room={{ $proyecto->codigo }}&username={{ auth()->user()->token }}"
-                                                                        class="myButton">Ingresar</a>
+                                                                        class="btn btn-dark ">Ingresar</a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -112,13 +114,13 @@
                             </div>
                             <div class="row justify-content-center">
                                 <div align="center" class="col">
-                                    <button class="btn btn-outline-dark" wire:click="restar()">
+                                    <button class="btn btn-outline-dark btn-secondary" wire:click="restar()">
                                         Atras
                                     </button>
                                 </div>
 
                                 <div align="center" class="col">
-                                    <button class="btn btn-outline-dark" wire:click="contar()">
+                                    <button class="btn btn-outline-dark btn-secondary" wire:click="contar()">
                                         Siguiente
                                     </button>
                                 </div>

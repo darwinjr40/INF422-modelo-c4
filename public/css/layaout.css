@@ -37,11 +37,13 @@
   body{
     margin: 0;
     padding: 0;
-    background-image: url(../img/fondo.jpg);
-    background-repeat: no-repeat;
+    background-image: url(../img/fond-negro.jpeg);
+    /* background-image: url(../img/pattern.png); */
+    /* background-image: url(../img/logo2.png); */
+    /* background-repeat: no-repeat;
     background-position: center center;
     height:120%;
-    background-size: cover;
+    background-size: cover; */
   }
 
   

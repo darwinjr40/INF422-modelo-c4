@@ -30,13 +30,14 @@
   box-sizing: border-box;
 }
 
-body{
+body { 
   margin: 0;
   padding: 0;
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
   color: var(--first-color-dark);
-  background-image: url(../img/fondo.jpg);
+  background-image: url(../img/fondo.jpg) !important;
+  /* background-image: url(../img/logo2.png); */
   background-repeat: no-repeat;
   background-position: center center;
   height:120%;
@@ -75,8 +76,8 @@ img{
 }
 
 .login__img img{
-  width: 310px;
-  margin-top: 1.5rem;
+  /* width: 310px;
+  margin-top: 1.5rem; */
 }
 
 .login__forms{
@@ -234,8 +235,8 @@ img{
 
   .login__img{
     display: flex;
-    width: 600px;
-    height: 588px;
+    width: 800px;
+    height: 700px;
     background-color: var(--first-color-lighten);
     border-radius: 1rem;
     padding-left: 1rem;

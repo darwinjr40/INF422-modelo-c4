@@ -28,7 +28,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img class="logo" src="{{ asset('img/logo.png') }}" alt="">
+                    <img class="logo" src="{{ asset('img/c4.png') }}" alt="">
                     <div class="titulo">Diagramador C4</div>
 
                 </a>
