@@ -96,9 +96,9 @@
                                                                         <a wire:click="compartirProyecto('{{ $proyecto->codigo }}')"
                                                                             class="btn btn-primary">Compartir</a>
                                                                     @endif
-                                                                    {{-- <a href="http://144.22.174.111:8080/model-c4?room={{ $proyecto->codigo }}&username={{ auth()->user()->token }}" --}}
-                                                                    <a href="http://localhost:8080/model-c4?room={{ $proyecto->codigo }}&username={{ auth()->user()->token }}"
+                                                                    <a href="{{config('services.url.app')}}/model-c4?room={{ $proyecto->codigo }}&username={{ auth()->user()->token }}"
                                                                         class="btn btn-dark ">Ingresar</a>
+                                                                        
                                                                 </div>
                                                             </div>
                                                         </div>
