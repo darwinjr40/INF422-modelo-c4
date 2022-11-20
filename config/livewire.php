@@ -55,7 +55,7 @@ return [
     */
 
     // 'asset_url' => null,
-    'asset_url' => config('services.url.asser_url'),
+    'asset_url' => config('services.url.asset_url'),
     /* 'asset_url' =>"https://supportficct.ga/modelo-c4/public", */
     /*
     |--------------------------------------------------------------------------

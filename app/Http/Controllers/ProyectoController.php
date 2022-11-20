@@ -118,6 +118,7 @@ class ProyectoController extends Controller
 
     public function env1()
     {
-      return config('services.url.app');
+      // return config('services.url.app');
+      return config('services.url.asset_url');
     }
 }
