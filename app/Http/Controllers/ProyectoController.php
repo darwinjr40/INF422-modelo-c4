@@ -115,4 +115,9 @@ class ProyectoController extends Controller
     {
         //
     }
+
+    public function env1()
+    {
+      return config('services.url.app');
+    }
 }

@@ -32,6 +32,7 @@ return [
 
     'url' => [
       'app' => env('APP_DIAGRAMADOR', 'http://localhost:8080'),
+      'asset_url' => env('ASSET_URL', null)
     ]
 
 ];
