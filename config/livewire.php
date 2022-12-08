@@ -55,7 +55,7 @@ return [
     */
 
     // 'asset_url' => null,
-    'asset_url' => config('services.url.asset_url'),
+    'asset_url' => config('services.url.services_asset_url'),
     /* 'asset_url' =>"https://supportficct.ga/modelo-c4/public", */
     // 'asset_url' =>"http://67.205.88.88/d-modelo-c4/public",
 
