@@ -31,8 +31,8 @@ return [
     ],
 
     'url' => [
-      'app' => env('APP_DIAGRAMADOR', 'http://localhost:8080'),
-      'asset_url' => env('SERVICES_ASSET_URL', null)
+      'app_diagramador' => env('APP_DIAGRAMADOR', 'http://localhost:8080'),
+      'services_asset_url' => env('SERVICES_ASSET_URL', null)
     ]
 
 ];

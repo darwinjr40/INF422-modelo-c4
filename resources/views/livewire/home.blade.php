@@ -96,7 +96,7 @@
                                                                         <a wire:click="compartirProyecto('{{ $proyecto->codigo }}')"
                                                                             class="btn btn-primary">Compartir</a>
                                                                     @endif
-                                                                    <a href="{{config('services.url.app')}}/model-c4?room={{ $proyecto->codigo }}&username={{ auth()->user()->token }}"
+                                                                    <a href="{{config('services.url.app_diagramador')}}/model-c4?room={{ $proyecto->codigo }}&username={{ auth()->user()->token }}"
                                                                         class="btn btn-dark ">Ingresar</a>
                                                                         
                                                                 </div>
