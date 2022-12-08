@@ -14,7 +14,7 @@
 <div class="login">
     <div class="login__content">
         <div class="login__img">
-            <img src="{{asset('img/logo.png')}}" alt="">
+            <img src="{{asset('img/logo2.png')}}" alt="">
         </div>
 
         <div class="login__forms">

@@ -36,8 +36,7 @@ body {
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
   color: var(--first-color-dark);
-  background-image: url(../img/fondo.jpg) !important;
-  /* background-image: url(../img/logo2.png); */
+  background-image: url(../img/fond-negro.jpeg) !important;  
   background-repeat: no-repeat;
   background-position: center center;
   height:120%;
