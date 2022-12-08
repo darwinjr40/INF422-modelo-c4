@@ -13,17 +13,44 @@ class UserSeeder extends Seeder
      *
      * @return void
      */
+    protected $users = [
+        [
+            'name' => 'administrador',
+            'email' => 'admin@gmail.com',
+            'password' => '0000'
+        ],
+        [
+            'name' => 'darwin',
+            'email' => 'darwin@gmail.com',
+            'password' => '0000'
+        ],
+        [
+            'name' => 'max',
+            'email' => 'max@gmail.com',
+            'password' => '0000'
+        ]
+    ];
+
     public function run()
     {
-        do {
-            $token = Str::uuid();
-        } while (User::where("token", $token)->first() instanceof User);
-
-        User::create([
-            'name'=> 'Administrador',
-            'email'=> 'admin@gmail.com',
-            'password' => bcrypt('0000'),
-            'token' => $token
-        ]);
+        foreach ($this->users as $user) { 
+            
+            do {
+                $token = Str::uuid();
+            } while (User::where("token", $token)->first() instanceof User);
+            
+            User::create([
+                'name' => $user['name'],
+                'email' => $user['email'],
+                'password' => bcrypt($user['password']),
+                'token' => $token
+            ]);
+        }
+        // User::create([
+        //     'name' => 'Administrador',
+        //     'email' => 'admin@gmail.com',
+        //     'password' => bcrypt('0000'),
+        //     'token' => $token
+        // ]);
     }
 }
