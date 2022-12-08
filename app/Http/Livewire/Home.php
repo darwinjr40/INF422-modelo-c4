@@ -25,6 +25,7 @@ class Home extends Component
   public $opcion = true;
   public $contador = 0;
   public $longitud = 0;
+  public $mensaje = '';
 
   //constructor -> mount
   public function mount()
@@ -85,6 +86,7 @@ class Home extends Component
       ->get();
     $this->modalUsers = true;
   }
+  
   public function actualizarVerUsers($proyecto_id)
   {
     $this->users = DB::table('users')
@@ -121,25 +123,39 @@ class Home extends Component
       $this->limpiar();
     }
   }
-  public function unirseProyecto()
-  {
+  private function validateCodigo(){
+    $r = true;
     if ($this->codigo == "") {
       $this->errormodal = true;
-    } else {
-      $proyecto = Proyecto::where("codigo", $this->codigo)->get()->first();
-      $proyectouser = ProyectoUser::where("user_id", auth()->user()->id)
-        ->where("proyecto_id", $proyecto->id)
-        ->get()->first();
-      if ($proyecto && $proyectouser == null) {
-        $proyecto->users()->attach(auth()->user()->id);
-        $this->registrado = false;
-        $this->limpiar();
-      } else {
-        $this->errormodal = true;
-        $this->registrado = true;
-      }
+      $this->mensaje = 'Campo Requerido!.';
+      $r = false;
     }
+    return $r;
   }
+
+  public function unirseProyecto()
+  {
+    if ($this->validateCodigo()) {
+      $proyecto = Proyecto::where("codigo", $this->codigo)->get()->first();
+      if (!$proyecto) {
+        $this->errormodal = true;
+        $this->mensaje = 'El proyecto. No existe! ';
+      } else {
+        $proyectoUser = ProyectoUser::where("user_id", auth()->user()->id)
+          ->where("proyecto_id", $proyecto->id)
+          ->get()->first();
+  
+        if ($proyectoUser) {
+          $this->errormodal = true;
+          $this->mensaje = 'Ya formas parte de este proyecto.';
+        } else {
+          $proyecto->users()->attach(auth()->user()->id);
+          $this->limpiar();
+        }
+      }
+    }    
+  }
+
   public function updateProyecto()
   {
     if ($this->nombre == "") {
