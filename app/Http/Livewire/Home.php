@@ -176,12 +176,16 @@ class Home extends Component
         // dd($this->filename);
         $nameFile = $this->filename->hashName();
         $this->filename->store('public');
-        // $file = $this->pathToUploadedFile(public_path().'/storage/LqpkSiWVBGcVoweWOL7G5tOg8j96q1JTDFmUqMj8.txt');
         $r = '';
         // $archivo = public_path().'/storage/LqpkSiWVBGcVoweWOL7G5tOg8j96q1JTDFmUqMj8.txt';
         $archivo = public_path().'/storage/'.$nameFile;
+        // $file = $this->pathToUploadedFile($archivo);        
+
         foreach(file($archivo) as $line) {
           $r .= $line;
+        }
+        if (File::exists($archivo)) {
+          File::delete($archivo);
         }
         if (!empty($r)) {
           $proyecto->content = $r;
