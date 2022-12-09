@@ -253,11 +253,7 @@
                                 class="form-control">
                             @if ($errormodal)
                                 <small class="text-danger">
-                                    @if ($registrado)
-                                        Ya formas parte de este proyecto.
-                                    @else
-                                        Campo Requerido.
-                                    @endif
+                                    {{$mensaje}}
                                 </small>
                             @endif
                         </div>
