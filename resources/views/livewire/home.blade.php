@@ -194,6 +194,11 @@
                             @if ($errormodal)
                                 <small class="text-danger">Campo Requerido</small>
                             @endif
+                            <h4>content:</h4>
+                            <input type="file" wire:model="filename" class="form-control">
+                            @if ($errormodal)
+                                <small class="text-danger">Campo Requerido</small>
+                            @endif
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"

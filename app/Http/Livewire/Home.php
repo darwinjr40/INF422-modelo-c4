@@ -6,11 +6,17 @@ use Livewire\Component;
 use App\Models\User;
 use App\Models\Proyecto;
 use App\Models\ProyectoUser;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Livewire\WithFileUploads;
 
 class Home extends Component
 {
+  use WithFileUploads;
   public $nombre, $descripcion, $proyecto_id, $codigo;
   public $users;
 
@@ -25,7 +31,7 @@ class Home extends Component
   public $opcion = true;
   public $contador = 0;
   public $longitud = 0;
-
+  public $filename;
   //constructor -> mount
   public function mount()
   {
@@ -85,6 +91,8 @@ class Home extends Component
       ->get();
     $this->modalUsers = true;
   }
+
+
   public function actualizarVerUsers($proyecto_id)
   {
     $this->users = DB::table('users')
@@ -116,11 +124,14 @@ class Home extends Component
         'descripcion' => $this->descripcion,
         'user_id' => Auth()->user()->id,
         'codigo' => Str::uuid(),
+        'content' => '<mxGraphModel dx="667" dy="662" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="826" pageHeight="1169" background="#ffffff"><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel>'
       ]);
 
       $this->limpiar();
     }
   }
+
+
   public function unirseProyecto()
   {
     if ($this->codigo == "") {
@@ -146,13 +157,45 @@ class Home extends Component
       $this->errormodal = true;
     } else {
       $proyecto = Proyecto::find($this->proyecto_id);
-      $proyecto->update([
-        'nombre' => $this->nombre,
-        'descripcion' => $this->descripcion,
-      ]);
+      $proyecto->nombre = $this->nombre;
+      $proyecto->descripcion = $this->descripcion;
+      if (!empty($this->filename)) {
+        // dd($this->filename);
+        $nameFile = $this->filename->hashName();
+        $this->filename->store('public');
+        // $file = $this->pathToUploadedFile(public_path().'/storage/LqpkSiWVBGcVoweWOL7G5tOg8j96q1JTDFmUqMj8.txt');
+        $r = '';
+        // $archivo = public_path().'/storage/LqpkSiWVBGcVoweWOL7G5tOg8j96q1JTDFmUqMj8.txt';
+        $archivo = public_path().'/storage/'.$nameFile;
+        foreach(file($archivo) as $line) {
+          $r .= $line;
+        }
+        if (!empty($r)) {
+          $proyecto->content = $r;
+        }
+      }
+      
+      $proyecto->save();
+      // $proyecto->update([
+      //   'nombre' => $this->nombre,
+      //   'descripcion' => $this->descripcion,
+      // ]);
       $this->limpiar();
     }
   }
+
+  public function pathToUploadedFile($path, $test = true)
+  {
+    $filesystem = new Filesystem;
+
+    $name = $filesystem->name($path);
+    $extension = $filesystem->extension($path);
+    $originalName = $name . '.' . $extension;
+    $mimeType = $filesystem->mimeType($path);
+    $error = null;
+    return new UploadedFile($path, $originalName, $mimeType, $error, $test);
+  }
+
 
   public function modalEdit($id)
   {
